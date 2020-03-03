@@ -1,0 +1,77 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  height: 100%;
+}
+body {
+  /* background: url(../images/login-bg.png) center center / cover no-repeat #434a5c; */
+  background-color: #434a5c;
+  color: #fff;
+  min-height: 100%;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+}
+.page {
+  display: flex;
+}
+#sidebar {
+  width: 158px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 4px 0px 12px -1px rgb(52, 52, 52);
+}
+.logo-wrapper {
+  padding: 16px 10px;
+  text-align: center;
+}
+.logo-wrapper img {
+  height: 35px;
+}
+.sidebar-menu li a {
+  background: #425269;
+  border: 1px solid #434a5c;
+  display: block;
+  line-height: 20px;
+  padding: 7px 12px;
+}
+.sidebar-menu li:last-child a {
+  background: transparent;
+}
+.sidebar-menu li a.active {
+  background: #fff;
+  color: #425269;
+}
+#main-content {
+  flex-grow: 1;
+  margin-left: 158px;
+  padding: 12px;
+}
+.panel-nav {
+  display: flex;
+  border-bottom: 2px solid #3a4050;
+}
+.panel-nav li a {
+  display: block;
+  line-height: 30px;
+  padding: 0 8px;
+  border-bottom: 2px solid #3a4050;
+  margin-bottom: -2px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.panel-nav li a.active {
+  border-color: #feb940;
+  color: #feb940;
+}
