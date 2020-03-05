@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Test Project Fazi</title>
 		<link rel="shortcut icon" type="image/png" href="./assets/images/favicon.ico" />
-		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="./assets/css/styles.css" />
 		<script src="./assets/scripts/app.js" defer type="module"></script>
 	</head>
@@ -25,14 +25,31 @@
 				</ul>
 			</div>
 			<div id="main-content">
-				<ul class="panel-nav">
-					<li><a href="#" class="active">Dashboard</a></li>
-					<li><a href="#">Statistic</a></li>
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Statistic</a></li>
-				</ul>
-				<div class="panel-content">
-					<table id="dashboard-table" class="table"></table>
+				<div id="dashboard-page">
+					<ul class="panel-nav">
+						<li><a href="#" class="active">Dashboard</a></li>
+						<li><a href="#">Jackpots Wins</a></li>
+						<li><a href="#">Players</a></li>
+						<li><a href="#">Portals</a></li>
+					</ul>
+					<div class="panel-content">
+						<div id="dashboard-dashboard">
+							<div id="dashboard-table"></div>
+						</div>
+					</div>
+				</div>
+				<div id="statistic-page">
+					<ul class="panel-nav">
+						<li><a href="#">Summary</a></li>
+						<li><a href="#" class="active">Games Summary</a></li>
+						<li><a href="#">Compared</a></li>
+						<li><a href="#">Per Game Selection</a></li>
+					</ul>
+					<div class="panel-content">
+						<div id="statistic-games-summary">
+							<div id="games-summary-table"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

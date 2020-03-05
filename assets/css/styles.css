@@ -92,10 +92,14 @@ a {
   font-weight: 400;
   background-color: #dd9853;
   text-align: left;
+  cursor: pointer;
 }
 .table td {
   background-color: #313c4a;
 }
 .table td:not(:first-child) {
   text-align: right;
+}
+#dashboard-page {
+  display: none;
 }
