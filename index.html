@@ -10,13 +10,13 @@
 		<script src="./assets/scripts/app.js" defer type="module"></script>
 	</head>
 	<body>
-		<div class="page">
+		<div class="page-holder">
 			<div id="sidebar">
 				<div class="logo-wrapper"><img src="./assets/images/logo.png" alt="logo" /></div>
-				<ul class="sidebar-menu">
-					<li><a href="#" class="active">Dashboard</a></li>
-					<li><a href="#">Statistic</a></li>
-					<li><a href="#">Accounting</a></li>
+				<ul id="sidebar-menu">
+					<li class="active"><a href="#" data-href="dashboard-page">Dashboard</a></li>
+					<li><a href="#" data-href="statistic-page">Statistic</a></li>
+					<li><a href="#" data-href="accounting-page">Accounting</a></li>
 					<li><a href="#">Advance Statistics</a></li>
 					<li><a href="#">Operators</a></li>
 					<li><a href="#">Configuration</a></li>
@@ -25,29 +25,46 @@
 				</ul>
 			</div>
 			<div id="main-content">
-				<div id="dashboard-page">
+				<div id="dashboard-page" class="page active">
 					<ul class="panel-nav">
-						<li><a href="#" class="active">Dashboard</a></li>
-						<li><a href="#">Jackpots Wins</a></li>
+						<li class="active"><a href="#" data-href="dashboard-dashboard">Dashboard</a></li>
+						<li><a href="#" data-href="dashboard-jackpots-wins">Jackpots Wins</a></li>
 						<li><a href="#">Players</a></li>
-						<li><a href="#">Portals</a></li>
+						<li><a href="#" data-href="dashboard-portals">Portals</a></li>
 					</ul>
-					<div class="panel-content">
-						<div id="dashboard-dashboard">
+					<div class="panel-content-wrapper">
+						<div id="dashboard-dashboard" class="panel-content active">
 							<div id="dashboard-table"></div>
+						</div>
+						<div id="dashboard-jackpots-wins" class="panel-content">
+							<div id="jackpots-table"></div>
+						</div>
+						<div id="dashboard-portals" class="panel-content">
+							<div id="dashboard-portal-table"></div>
 						</div>
 					</div>
 				</div>
-				<div id="statistic-page">
+				<div id="statistic-page" class="page">
 					<ul class="panel-nav">
 						<li><a href="#">Summary</a></li>
-						<li><a href="#" class="active">Games Summary</a></li>
+						<li class="active"><a href="#" data-href="statistic-games-summary">Games Summary</a></li>
 						<li><a href="#">Compared</a></li>
 						<li><a href="#">Per Game Selection</a></li>
 					</ul>
-					<div class="panel-content">
-						<div id="statistic-games-summary">
+					<div class="panel-content-wrapper">
+						<div id="statistic-games-summary" class="panel-content active">
 							<div id="games-summary-table"></div>
+						</div>
+					</div>
+				</div>
+				<div id="accounting-page" class="page">
+					<ul class="panel-nav">
+						<li class="active"><a href="#" data-href="accounting-reports">Reports</a></li>
+						<li><a href="#">Setup</a></li>
+					</ul>
+					<div class="panel-content-wrapper">
+						<div id="accounting-reports" class="panel-content active">
+							<div id="accounting-reports-table"></div>
 						</div>
 					</div>
 				</div>

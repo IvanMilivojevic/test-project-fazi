@@ -13,12 +13,13 @@ class TableModifier {
 			sortDirection = "asc";
 		} else {
 			for (const thElement of th.parentNode.children) {
-				if (!(thElement === th)) {
+				if (thElement === th) {
+					thElement.classList.add("asc");
+					sortDirection = "asc";
+				} else {
 					thElement.removeAttribute("class");
 				}
 			}
-			th.classList.add("asc");
-			sortDirection = "asc";
 		}
 		tableObject.sortState = sortMethod;
 		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
@@ -174,8 +175,7 @@ class Table {
 
 class App {
 	static init() {
-		console.time();
-		// this.dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
+		this.dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
 		const gamesSummary = new Table(
 			"gameStatisticsPerGame",
 			"assets/json/statistic-games-summary.json",
@@ -184,7 +184,42 @@ class App {
 			false,
 			"gameStatisticsSum"
 		);
-		console.timeEnd();
+
+		const sidebarMenu = document.getElementById("sidebar-menu");
+		const pagesContentHolder = document.querySelectorAll("#main-content .page");
+		sidebarMenu.addEventListener("click", App.navigation.bind(null, pagesContentHolder));
+
+		const panelNavs = document.querySelectorAll(".panel-nav");
+		for (const panelNav of panelNavs) {
+			const panelsContentHolder = panelNav.nextElementSibling.children;
+			panelNav.addEventListener("click", App.navigation.bind(null, panelsContentHolder));
+		}
+	}
+
+	static navigation(contentHolder) {
+		event.preventDefault();
+		const menuItemSelected = event.target.closest("li");
+		const menuItemLink = event.target.closest("a").dataset.href;
+
+		if (!menuItemLink) {
+			return;
+		}
+
+		for (const menuElement of menuItemSelected.parentNode.children) {
+			if (menuElement === menuItemSelected) {
+				menuElement.classList.add("active");
+			} else {
+				menuElement.classList.remove("active");
+			}
+		}
+
+		for (const page of contentHolder) {
+			if (page.id === menuItemLink) {
+				page.classList.add("active");
+			} else {
+				page.classList.remove("active");
+			}
+		}
 	}
 }
 

@@ -23,7 +23,7 @@ a {
   color: #fff;
   text-decoration: none;
 }
-.page {
+.page-holder {
   display: flex;
 }
 #sidebar {
@@ -41,17 +41,17 @@ a {
 .logo-wrapper img {
   height: 35px;
 }
-.sidebar-menu li a {
+#sidebar-menu li a {
   background: #425269;
   border: 1px solid #434a5c;
   display: block;
   line-height: 20px;
   padding: 7px 12px;
 }
-.sidebar-menu li:last-child a {
+#sidebar-menu li:last-child a {
   background: transparent;
 }
-.sidebar-menu li a.active {
+#sidebar-menu li.active a {
   background: #fff;
   color: #425269;
 }
@@ -73,12 +73,18 @@ a {
   text-transform: uppercase;
   font-size: 14px;
 }
-.panel-nav li a.active {
+.panel-nav li.active a {
   border-color: #feb940;
   color: #feb940;
 }
-.panel-content {
+.panel-content-wrapper {
   padding: 15px 12px 0 0;
+}
+.panel-content {
+  display: none;
+}
+.panel-content.active {
+  display: block;
 }
 .table {
   width: 100%;
@@ -103,6 +109,9 @@ a {
 .table tfoot td {
   background-color: #20272f;
 }
-#dashboard-page {
+#main-content .page {
   display: none;
+}
+#main-content .page.active {
+  display: block;
 }
