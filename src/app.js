@@ -1,23 +1,38 @@
 class TableModifier {
 	static tableSort(tableObject, th) {
-		console.time();
 		const sortMethod = th.dataset.sortMethod;
-		const sortType = sortMethod === "gameName" || sortMethod === "currency" ? "text" : "number";
+		const columnType = sortMethod === "gameName" || sortMethod === "currency" ? "text" : "number";
 		let sortDirection;
+		if (th.classList.contains("asc")) {
+			th.classList.remove("asc");
+			th.classList.add("desc");
+			sortDirection = "desc";
+		} else if (th.classList.contains("desc")) {
+			th.classList.remove("desc");
+			th.classList.add("asc");
+			sortDirection = "asc";
+		} else {
+			for (const thElement of th.parentNode.children) {
+				if (!(thElement === th)) {
+					thElement.removeAttribute("class");
+				}
+			}
+			th.classList.add("asc");
+			sortDirection = "asc";
+		}
 		tableObject.sortState = sortMethod;
-		tableObject.tableData.sort(TableModifier.compare(sortMethod, sortType));
+		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
 		const unsortedTable = document.getElementById(tableObject.id).querySelector("tbody");
 		const sortedTable = TableCreator.tableBody(tableObject.tableData);
 		unsortedTable.replaceWith(sortedTable);
-		console.timeEnd();
 	}
 
-	static compare(sortMethod, sortType) {
+	static compare(sortMethod, columnType, sortDirection) {
 		return function innerSort(a, b) {
 			const valueA =
-				sortType === "number" ? parseFloat(a[sortMethod].toString().replace(/,/g, "")) : a[sortMethod].toUpperCase();
+				columnType === "number" ? parseFloat(a[sortMethod].toString().replace(/,/g, "")) : a[sortMethod].toUpperCase();
 			const valueB =
-				sortType === "number" ? parseFloat(b[sortMethod].toString().replace(/,/g, "")) : b[sortMethod].toUpperCase();
+				columnType === "number" ? parseFloat(b[sortMethod].toString().replace(/,/g, "")) : b[sortMethod].toUpperCase();
 
 			let comparison = 0;
 			if (valueA > valueB) {
@@ -25,7 +40,7 @@ class TableModifier {
 			} else if (valueA < valueB) {
 				comparison = -1;
 			}
-			return comparison;
+			return sortDirection === "desc" ? comparison * -1 : comparison;
 		};
 	}
 }
@@ -148,11 +163,11 @@ class Table {
 		table.appendChild(tableHead);
 		table.appendChild(tableBody);
 
-		if(dataSum) {
+		if (dataSum) {
 			const tableFoot = TableCreator.tableFoot(dataSum);
 			table.appendChild(tableFoot);
 		}
-		
+
 		document.getElementById(this.id).appendChild(table);
 	}
 }
@@ -160,7 +175,7 @@ class Table {
 class App {
 	static init() {
 		console.time();
-		this.dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
+		// this.dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
 		const gamesSummary = new Table(
 			"gameStatisticsPerGame",
 			"assets/json/statistic-games-summary.json",
