@@ -100,6 +100,9 @@ a {
 .table td:not(:first-child) {
   text-align: right;
 }
+.table tfoot td {
+  background-color: #20272f;
+}
 #dashboard-page {
   display: none;
 }
