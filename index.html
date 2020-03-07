@@ -82,35 +82,30 @@
 								<div class="dd-heading">
 									<span id="search-button"></span>
 									<input type="text" name="search" id="search-input" />
-									<label for="select-all-rep"><input type="checkbox" id="select-all-rep"><span>Select All</span></label>
+									<div class="label ms-select-all"><span>Select All</span></div>
 								</div>
 								<div class="dd-options">
-									<label for="slot-acc-rep"><input type="checkbox" id="slot-acc-rep"><span>Slot</span></label>
-									<label for="roulette-acc-rep"><input type="checkbox" id="roulette-acc-rep"><span>Roulette</span></label>
-									<label for="ler-acc-rep"><input type="checkbox" id="ler-acc-rep"><span>Live European Roulette</span></label>
-									<label for="tcr-acc-rep"><input type="checkbox" id="tcr-acc-rep"><span>Triple Crown Roulette</span></label>
-									<label for="poker-acc-rep"><input type="checkbox" id="poker-acc-rep"><span>Poker</span></label>
+									<div class="label" data-href="slot-accounting-table"><span>Slot</span></div>
+									<div class="label" data-href="roulette-accounting-table"><span>Roulette</span></div>
+									<div class="label" data-href="ler-accounting-table"><span>Live European Roulette</span></div>
+									<div class="label" data-href="tcr-accounting-table"><span>Triple Crown Roulette</span></div>
+									<div class="label" data-href="poker-accounting-table"><span>Poker</span></div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="panel-content-wrapper">
 						<div id="accounting-reports" class="panel-content active">
-							<div id="slot-accounting-table">
-								<h3>Slot Accounting</h3>
-							</div>
-							<div id="roulette-accounting-table">
-								<h3>Roulette Accounting</h3>
-							</div>
-							<div id="ler-accounting-table">
-								<h3>Live European Roulette Accounting</h3>
-							</div>
-							<div id="tcr-accounting-table">
-								<h3>Triple Crown Roulette Accounting</h3>
-							</div>
-							<div id="poker-accounting-table">
-								<h3>Poker Accounting</h3>
-							</div>
+							<h3>Slot Accounting</h3>
+							<div id="slot-accounting-table" class="acc-table filterable active"></div>
+							<h3>Roulette Accounting</h3>
+							<div id="roulette-accounting-table" class="acc-table filterable"></div>
+							<h3>Live European Roulette Accounting</h3>
+							<div id="ler-accounting-table" class="acc-table filterable"></div>
+							<h3>Triple Crown Roulette Accounting</h3>
+							<div id="tcr-accounting-table" class="acc-table filterable"></div>
+							<h3>Poker Accounting</h3>
+							<div id="poker-accounting-table" class="acc-table filterable"></div>
 						</div>
 					</div>
 				</div>

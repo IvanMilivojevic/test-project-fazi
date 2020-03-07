@@ -24,7 +24,6 @@ class TableModifier {
 			}
 		}
 
-		tableObject.sortState = sortMethod;
 		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
 		const unsortedTable = document.getElementById(tableObject.id).querySelector("tbody");
 		const sortedTable = TableCreator.tableBody(tableObject.tableData);
@@ -136,13 +135,18 @@ class TableCreator {
 class Table {
 	constructor(tableLocation, url, renderPlaceId, columnBased, firstColumnTitle, tableLocationSum) {
 		this.id = renderPlaceId;
-		this.getData(url).then(data => {
-			this.tableData = this.getTableDepth(tableLocation, data);
-			if (tableLocationSum) {
-				this.tableDataSum = [this.getTableDepth(tableLocationSum, data)];
-			}
-			this.createTable(this.tableData, columnBased, firstColumnTitle, this.tableDataSum);
-		});
+		this.getData(url)
+			.then(data => {
+				this.tableData = this.getTableDepth(tableLocation, data);
+				if (tableLocationSum) {
+					this.tableDataSum = [this.getTableDepth(tableLocationSum, data)];
+				}
+				this.createTable(this.tableData, columnBased, firstColumnTitle, this.tableDataSum);
+				this.conectFilter();
+			})
+			.catch(data => {
+				document.getElementById(this.id).textContent = "Error displaying table.";
+			});
 	}
 	getData(url) {
 		return new Promise((resolve, reject) => {
@@ -186,6 +190,29 @@ class Table {
 		}
 
 		document.getElementById(this.id).appendChild(table);
+	}
+	conectFilter() {
+		const tableContainer = document.getElementById(this.id);
+
+		if (!tableContainer.classList.contains("filterable")) {
+			return;
+		}
+
+		const labelFilter = document.querySelector(`.filter-item .label[data-href=${this.id}]`);
+		labelFilter.classList.add("active");
+		labelFilter.addEventListener("click", this.attachFilter);
+
+		if (tableContainer.classList.contains("active")) {
+			labelFilter.classList.add("checked");
+		}
+	}
+	attachFilter() {
+		const filterName = this.dataset.href;
+		this.classList.toggle("checked");
+		document.getElementById(filterName).classList.toggle("active");
+		this.closest(".filter-item")
+			.querySelector(".ms-select-all")
+			.classList.remove("checked");
 	}
 }
 
@@ -290,6 +317,16 @@ class App {
 			"pokerAccountingSum"
 		);
 
+		const multiselectAllFilter = document.querySelector(".ms-select-all");
+		multiselectAllFilter.addEventListener("click", App.multiselectFilterHandle);
+
+		const dropdownButons = document.querySelectorAll(".filter-item .dropdown-button");
+		for (const button of dropdownButons) {
+			button.addEventListener("click", App.dropdownHandler);
+		}
+
+		document.addEventListener("click", App.closeFiltersHandler, true);
+
 		const sidebarMenu = document.getElementById("sidebar-menu");
 		const pagesContentHolder = document.querySelectorAll("#main-content .page");
 		sidebarMenu.addEventListener("click", App.navigation.bind(null, pagesContentHolder));
@@ -298,6 +335,25 @@ class App {
 		for (const panelNav of panelNavs) {
 			const panelsContentHolder = panelNav.parentNode.querySelector(".panel-content-wrapper").children;
 			panelNav.addEventListener("click", App.navigation.bind(null, panelsContentHolder));
+		}
+	}
+
+	static dropdownHandler() {
+		this.parentNode.classList.toggle("show");
+	}
+
+	static multiselectFilterHandle() {
+		const filters = this.closest(".filter-item").querySelectorAll(".dd-options .active:not(.checked)");
+		for (const filter of filters) {
+			filter.click();
+		}
+		this.classList.add("checked");
+	}
+
+	static closeFiltersHandler() {
+		const openedFilter = document.querySelector(".filter-item.show");
+		if (openedFilter && event.target.closest(".filter-item") !== openedFilter) {
+			openedFilter.classList.remove("show");
 		}
 	}
 

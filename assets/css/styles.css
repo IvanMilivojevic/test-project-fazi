@@ -126,12 +126,15 @@ a {
 	display: block;
 }
 .panel-filters {
-	margin: 20px 0;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 .filter-item {
 	position: relative;
 	width: 135px;
-	line-height: 23px;
+  line-height: 23px;
+  margin-right: 20px;
 }
 .dropdown-button {
 	padding: 0 23px 0 5px;
@@ -139,7 +142,8 @@ a {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	cursor: pointer;
+  cursor: pointer;
+  font-size: 12px;
 }
 .dropdown-holder {
 	position: absolute;
@@ -147,7 +151,11 @@ a {
 	left: 0;
 	width: 100%;
 	background-color: #434a5c;
-	box-shadow: 0px 6px 30px -5px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 6px 30px -5px rgba(0, 0, 0, 0.75);
+  display: none;
+}
+.filter-item.show .dropdown-holder {
+  display: block;
 }
 .dd-heading {
 	display: flex;
@@ -170,7 +178,7 @@ a {
 	max-width: calc(100% - 33px);
 	display: none;
 }
-.filter-item label {
+.filter-item .label {
 	display: block;
 	position: relative;
 	padding: 0 5px 0 30px;
@@ -180,14 +188,7 @@ a {
 	cursor: pointer;
 	font-size: 12px;
 }
-.filter-item label input[type="checkbox"] {
-	position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	height: 0;
-	width: 0;
-}
-.filter-item label span:before {
+.filter-item .label span:before {
 	content: "";
 	position: absolute;
 	top: 3px;
@@ -197,7 +198,7 @@ a {
 	background-color: #313c4a;
 	border: 1px solid #4a5460;
 }
-.filter-item label input[type="checkbox"]:checked + span:after {
+.filter-item .label.checked span:after {
 	content: "";
 	position: absolute;
 	top: 7px;
@@ -208,6 +209,14 @@ a {
 	border-bottom: 2px solid #fff;
 	transform: rotate(-45deg);
 }
-.filter-item label:hover {
+.filter-item .label:hover {
   background-color: #ce853c;
+}
+.acc-table,
+.dd-options .label {
+  display: none;
+}
+.acc-table.active,
+.dd-options .label.active {
+  display: block;
 }
