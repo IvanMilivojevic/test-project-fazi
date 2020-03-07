@@ -1,8 +1,10 @@
 class TableModifier {
 	static tableSort(tableObject, th) {
 		const sortMethod = th.dataset.sortMethod;
-		const columnType = sortMethod === "gameName" || sortMethod === "currency" ? "text" : "number";
+		const textBasedMethods = ["gameName", "currency", "time", "playerId", "portalName"];
+		const columnType = textBasedMethods.includes(sortMethod) ? "text" : "number";
 		let sortDirection;
+
 		if (th.classList.contains("asc")) {
 			th.classList.remove("asc");
 			th.classList.add("desc");
@@ -21,6 +23,7 @@ class TableModifier {
 				}
 			}
 		}
+		
 		tableObject.sortState = sortMethod;
 		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
 		const unsortedTable = document.getElementById(tableObject.id).querySelector("tbody");
@@ -131,12 +134,12 @@ class TableCreator {
 }
 
 class Table {
-	constructor(table, url, renderPlaceId, columnBased, firstColumnTitle, tableSum) {
+	constructor(tableLocation, url, renderPlaceId, columnBased, firstColumnTitle, tableLocationSum) {
 		this.id = renderPlaceId;
 		this.getData(url).then(data => {
-			this.tableData = data.result[table];
-			if (tableSum) {
-				this.tableDataSum = [data.result[tableSum]];
+			this.tableData = this.getTableDepth(tableLocation, data);
+			if (tableLocationSum) {
+				this.tableDataSum = [this.getTableDepth(tableLocationSum, data)];
 			}
 			this.createTable(this.tableData, columnBased, firstColumnTitle, this.tableDataSum);
 		});
@@ -155,6 +158,19 @@ class Table {
 
 			xhr.send();
 		});
+	}
+	getTableDepth(tableLocation, data) {
+		const props = tableLocation.split("/");
+		const propsLength = props.length;
+		if (propsLength === 1) {
+			return data.result[props[0]];
+		} else if (propsLength === 2) {
+			return data.result[props[0]][props[1]];
+		} else if (propsLength === 3) {
+			return data.result[props[0]][props[1]][props[2]];
+		} else if (propsLength === 4) {
+			return data.result[props[0]][props[1]][props[2]][props[3]];
+		}
 	}
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle, this);
@@ -175,7 +191,7 @@ class Table {
 
 class App {
 	static init() {
-		this.dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
+		const dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
 		const gamesSummary = new Table(
 			"gameStatisticsPerGame",
 			"assets/json/statistic-games-summary.json",
@@ -183,6 +199,55 @@ class App {
 			false,
 			false,
 			"gameStatisticsSum"
+		);
+		const jackpotsSilver = new Table(
+			"jackpots/Silver/dashboardJackpots",
+			"assets/json/dashboard.json",
+			"jackpots-silver-table",
+			false,
+			false
+		);
+		const jackpotsGold = new Table(
+			"jackpots/Gold/dashboardJackpots",
+			"assets/json/dashboard.json",
+			"jackpots-gold-table",
+			false,
+			false
+		);
+		const jackpotsPlatinum = new Table(
+			"jackpots/Platinum/dashboardJackpots",
+			"assets/json/dashboard.json",
+			"jackpots-platinum-table",
+			false,
+			false
+		);
+		const jackpotsDiamond = new Table(
+			"jackpots/Diamond/dashboardJackpots",
+			"assets/json/dashboard.json",
+			"jackpots-diamond-table",
+			false,
+			false
+		);
+		const portalEur = new Table(
+			"portalsActivities/Portal-EUR/activities",
+			"assets/json/dashboard.json",
+			"dashboard-portal-eur-table",
+			true,
+			"Activity"
+		);
+		const portalUsd = new Table(
+			"portalsActivities/Portal-USD/activities",
+			"assets/json/dashboard.json",
+			"dashboard-portal-usd-table",
+			true,
+			"Activity"
+		);
+		const portalRsd = new Table(
+			"portalsActivities/Portal-RSD/activities",
+			"assets/json/dashboard.json",
+			"dashboard-portal-rsd-table",
+			true,
+			"Activity"
 		);
 
 		const sidebarMenu = document.getElementById("sidebar-menu");
