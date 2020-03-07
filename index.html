@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Test Project Fazi</title>
 		<link rel="shortcut icon" type="image/png" href="./assets/images/favicon.ico" />
-		<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="./assets/css/styles.css" />
 		<script src="./assets/scripts/app.js" defer type="module"></script>
 	</head>
@@ -14,9 +14,9 @@
 			<div id="sidebar">
 				<div class="logo-wrapper"><img src="./assets/images/logo.png" alt="logo" /></div>
 				<ul id="sidebar-menu">
-					<li class="active"><a href="#" data-href="dashboard-page">Dashboard</a></li>
+					<li><a href="#" data-href="dashboard-page">Dashboard</a></li>
 					<li><a href="#" data-href="statistic-page">Statistic</a></li>
-					<li><a href="#" data-href="accounting-page">Accounting</a></li>
+					<li class="active"><a href="#" data-href="accounting-page">Accounting</a></li>
 					<li><a href="#">Advance Statistics</a></li>
 					<li><a href="#">Operators</a></li>
 					<li><a href="#">Configuration</a></li>
@@ -25,7 +25,7 @@
 				</ul>
 			</div>
 			<div id="main-content">
-				<div id="dashboard-page" class="page active">
+				<div id="dashboard-page" class="page">
 					<ul class="panel-nav">
 						<li class="active"><a href="#" data-href="dashboard-dashboard">Dashboard</a></li>
 						<li><a href="#" data-href="dashboard-jackpots-wins">Jackpots Wins</a></li>
@@ -70,14 +70,47 @@
 						</div>
 					</div>
 				</div>
-				<div id="accounting-page" class="page">
+				<div id="accounting-page" class="page active">
 					<ul class="panel-nav">
 						<li class="active"><a href="#" data-href="accounting-reports">Reports</a></li>
 						<li><a href="#">Setup</a></li>
 					</ul>
+					<div class="panel-filters">
+						<div class="ms-filter filter-item" id="account-rep-filter">
+							<div class="dropdown-button">Select Categories</div>
+							<div class="dropdown-holder">
+								<div class="dd-heading">
+									<span id="search-button"></span>
+									<input type="text" name="search" id="search-input" />
+									<label for="select-all-rep"><input type="checkbox" id="select-all-rep"><span>Select All</span></label>
+								</div>
+								<div class="dd-options">
+									<label for="slot-acc-rep"><input type="checkbox" id="slot-acc-rep"><span>Slot</span></label>
+									<label for="roulette-acc-rep"><input type="checkbox" id="roulette-acc-rep"><span>Roulette</span></label>
+									<label for="ler-acc-rep"><input type="checkbox" id="ler-acc-rep"><span>Live European Roulette</span></label>
+									<label for="tcr-acc-rep"><input type="checkbox" id="tcr-acc-rep"><span>Triple Crown Roulette</span></label>
+									<label for="poker-acc-rep"><input type="checkbox" id="poker-acc-rep"><span>Poker</span></label>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="panel-content-wrapper">
 						<div id="accounting-reports" class="panel-content active">
-							<div id="accounting-reports-table"></div>
+							<div id="slot-accounting-table">
+								<h3>Slot Accounting</h3>
+							</div>
+							<div id="roulette-accounting-table">
+								<h3>Roulette Accounting</h3>
+							</div>
+							<div id="ler-accounting-table">
+								<h3>Live European Roulette Accounting</h3>
+							</div>
+							<div id="tcr-accounting-table">
+								<h3>Triple Crown Roulette Accounting</h3>
+							</div>
+							<div id="poker-accounting-table">
+								<h3>Poker Accounting</h3>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -23,7 +23,7 @@ class TableModifier {
 				}
 			}
 		}
-		
+
 		tableObject.sortState = sortMethod;
 		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
 		const unsortedTable = document.getElementById(tableObject.id).querySelector("tbody");
@@ -249,6 +249,46 @@ class App {
 			true,
 			"Activity"
 		);
+		const slotAccounting = new Table(
+			"slotAccounting",
+			"assets/json/accounting-reports.json",
+			"slot-accounting-table",
+			false,
+			false,
+			"slotAccountingSum"
+		);
+		const rouletteAccounting = new Table(
+			"rouletteAccounting",
+			"assets/json/accounting-reports.json",
+			"roulette-accounting-table",
+			false,
+			false,
+			"rouletteAccountingSum"
+		);
+		const lerAccounting = new Table(
+			"liveEuropeanRouletteAccounting",
+			"assets/json/accounting-reports.json",
+			"ler-accounting-table",
+			false,
+			false,
+			"liveEuropeanRouletteAccountingSum"
+		);
+		const tcrAccounting = new Table(
+			"tripleCrownRouletteAccounting",
+			"assets/json/accounting-reports.json",
+			"tcr-accounting-table",
+			false,
+			false,
+			"tripleCrownRouletteAccountingSum"
+		);
+		const pokerAccounting = new Table(
+			"pokerAccounting",
+			"assets/json/accounting-reports.json",
+			"poker-accounting-table",
+			false,
+			false,
+			"pokerAccountingSum"
+		);
 
 		const sidebarMenu = document.getElementById("sidebar-menu");
 		const pagesContentHolder = document.querySelectorAll("#main-content .page");
@@ -256,7 +296,7 @@ class App {
 
 		const panelNavs = document.querySelectorAll(".panel-nav");
 		for (const panelNav of panelNavs) {
-			const panelsContentHolder = panelNav.nextElementSibling.children;
+			const panelsContentHolder = panelNav.parentNode.querySelector(".panel-content-wrapper").children;
 			panelNav.addEventListener("click", App.navigation.bind(null, panelsContentHolder));
 		}
 	}
