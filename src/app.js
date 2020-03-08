@@ -325,16 +325,50 @@ class App {
 			button.addEventListener("click", App.dropdownHandler);
 		}
 
+		const searchButton = document.getElementById("search-button");
+		searchButton.addEventListener("click", function() {
+			this.parentNode.classList.toggle("search-active");
+			this.nextElementSibling.focus();
+		});
+
+		const searchInput = document.getElementById("search-input");
+		const searchTargetsSelector = "#accounting-reports tbody td:first-child";
+		searchInput.addEventListener("input", App.searchHandler.bind(searchInput, searchTargetsSelector));
+
 		document.addEventListener("click", App.closeFiltersHandler, true);
 
 		const sidebarMenu = document.getElementById("sidebar-menu");
 		const pagesContentHolder = document.querySelectorAll("#main-content .page");
-		sidebarMenu.addEventListener("click", App.navigation.bind(null, pagesContentHolder));
+		sidebarMenu.addEventListener("click", App.navigationHandler.bind(null, pagesContentHolder));
 
 		const panelNavs = document.querySelectorAll(".panel-nav");
 		for (const panelNav of panelNavs) {
 			const panelsContentHolder = panelNav.parentNode.querySelector(".panel-content-wrapper").children;
-			panelNav.addEventListener("click", App.navigation.bind(null, panelsContentHolder));
+			panelNav.addEventListener("click", App.navigationHandler.bind(null, panelsContentHolder));
+		}
+	}
+
+	static searchHandler(searchTargetsSelector) {
+		const searchValue = this.value.trim();
+		const searchTargets = document.querySelectorAll(searchTargetsSelector);
+		const regex = new RegExp(searchValue, "gi");
+
+		for (const nameCell of searchTargets) {
+			let name = nameCell.textContent;
+
+			if (searchValue === "") {
+				nameCell.innerHTML = name;
+				nameCell.parentNode.classList.remove("hide");
+			} else {
+				const searchedName = name.replace(regex, "<span class='highlight'>$&</span>");
+				nameCell.innerHTML = searchedName;
+				
+				if (searchedName !== name) {
+					nameCell.parentNode.classList.remove("hide");
+				} else {
+					nameCell.parentNode.classList.add("hide");
+				}
+			}
 		}
 	}
 
@@ -357,7 +391,7 @@ class App {
 		}
 	}
 
-	static navigation(contentHolder) {
+	static navigationHandler(contentHolder) {
 		event.preventDefault();
 		const menuItemSelected = event.target.closest("li");
 		const menuItemLink = event.target.closest("a").dataset.href;
