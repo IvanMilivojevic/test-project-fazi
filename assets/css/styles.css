@@ -68,7 +68,7 @@ a {
 	top: 0;
 	background-color: #434a5c;
 	padding-top: 12px;
-	z-index: 1;
+	z-index: 11;
 }
 .panel-nav li a {
 	display: block;
@@ -96,30 +96,57 @@ a {
 	margin-bottom: 10px;
 }
 .table {
-	width: 100%;
-	table-layout: fixed;
 	margin-bottom: 30px;
+	position: relative;
 }
-.table th,
-.table td {
+.table .table-row {
+	display: flex;
+}
+.table .table-row > span {
 	padding: 5px 7px;
+	background-color: #313c4a;
+	flex: 1 1 0;
+	border-right: 1px solid #434a5c;
+	border-bottom: 1px solid #434a5c;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
-.table th {
+.table .table-head span {
 	font-weight: 400;
 	background-color: #dd9853;
 	text-align: left;
 	cursor: pointer;
+	border: 1px solid #c28649;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
-.table td {
-	background-color: #313c4a;
+.table .table-head span.asc,
+.table .table-head span.desc {
+	background-color: #20272f;
 }
-.table td:not(:first-child) {
+.table .table-head span.asc:after,
+.table .table-head span.desc:after {
+	content: "";
+	width: 0;
+	height: 0;
+	display: inline-flex;
+	border: 6px solid #dd9853;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+.table .table-head span.desc:after {
+	transform: rotate(180deg);
+}
+.table .table-row > span:not(:first-child) {
 	text-align: right;
 }
-.table tr.hide {
+.table .table-row.hide {
 	display: none;
 }
-.table tfoot td {
+.table .table-foot span {
   background-color: #20272f;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -127,6 +154,7 @@ a {
 }
 .table .highlight {
 	background-color: red;
+	font-weight: normal;
 }
 #main-content .page {
 	display: none;
@@ -137,7 +165,9 @@ a {
 .panel-filters {
   margin: 20px 0;
   display: flex;
-  flex-wrap: wrap;
+	flex-wrap: wrap;
+	position: relative;
+	z-index: 10;
 }
 .filter-item {
 	position: relative;

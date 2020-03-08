@@ -25,7 +25,7 @@ class TableModifier {
 		}
 
 		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
-		const unsortedTable = document.getElementById(tableObject.id).querySelector("tbody");
+		const unsortedTable = document.querySelector(`#${tableObject.id} .table-body`);
 		const sortedTable = TableCreator.tableBody(tableObject.tableData);
 		unsortedTable.replaceWith(sortedTable);
 	}
@@ -50,49 +50,53 @@ class TableModifier {
 
 class TableCreator {
 	static tableHead(data, columnBased, firstColumnTitle, tableObject) {
-		const tableHead = document.createElement("thead");
-		const tableHeadRow = document.createElement("tr");
+		const tableHead = document.createElement("div");
+		tableHead.classList.add("table-head");
+		const headRow = document.createElement("div");
+		headRow.classList.add("table-row");
 
 		if (columnBased) {
-			const thfirst = document.createElement("th");
+			const thfirst = document.createElement("span");
 			thfirst.textContent = firstColumnTitle;
-			tableHeadRow.appendChild(thfirst);
+			headRow.appendChild(thfirst);
 
 			for (const columnTitle in data) {
-				const th = document.createElement("th");
+				const th = document.createElement("span");
 				th.textContent = columnTitle;
-				tableHeadRow.appendChild(th);
+				headRow.appendChild(th);
 			}
 		} else {
 			for (const columnTitle in data[0]) {
-				const th = document.createElement("th");
+				const th = document.createElement("span");
 				th.textContent = columnTitle;
 				th.setAttribute("data-sort-method", columnTitle);
 				th.addEventListener("click", TableModifier.tableSort.bind(null, tableObject, th));
-				tableHeadRow.appendChild(th);
+				headRow.appendChild(th);
 			}
 		}
 
-		tableHead.appendChild(tableHeadRow);
+		tableHead.appendChild(headRow);
 
 		return tableHead;
 	}
 
 	static tableBody(data, columnBased) {
-		const tableBody = document.createElement("tbody");
+		const tableBody = document.createElement("div");
+		tableBody.classList.add("table-body");
 
 		if (columnBased) {
 			const bodyRowNames = Object.keys(data[Object.keys(data)[0]]);
 			const bodyRowCount = bodyRowNames.length;
 
 			for (let i = 0; i < bodyRowCount; i++) {
-				const tr = document.createElement("tr");
-				const tdname = document.createElement("td");
-				tdname.textContent = bodyRowNames[i];
-				tr.appendChild(tdname);
+				const tr = document.createElement("div");
+				tr.classList.add("table-row");
+				const rowName = document.createElement("span");
+				rowName.textContent = bodyRowNames[i];
+				tr.appendChild(rowName);
 
 				for (const column in data) {
-					const td = document.createElement("td");
+					const td = document.createElement("span");
 					td.textContent = Object.values(data[column])[i];
 					tr.appendChild(td);
 				}
@@ -101,10 +105,11 @@ class TableCreator {
 			}
 		} else {
 			for (const row of data) {
-				const tr = document.createElement("tr");
+				const tr = document.createElement("div");
+				tr.classList.add("table-row");
 
 				for (const key in row) {
-					const td = document.createElement("td");
+					const td = document.createElement("span");
 					td.textContent = row[key];
 					tr.appendChild(td);
 				}
@@ -117,16 +122,18 @@ class TableCreator {
 	}
 
 	static tableFoot(dataSum) {
-		const tableFoot = document.createElement("tfoot");
-		const tr = document.createElement("tr");
+		const tableFoot = document.createElement("div");
+		tableFoot.classList.add("table-foot");
+		const footRow = document.createElement("div");
+		footRow.classList.add("table-row");
 
 		for (const key in dataSum[0]) {
-			const td = document.createElement("td");
+			const td = document.createElement("span");
 			td.textContent = dataSum[0][key];
-			tr.appendChild(td);
+			footRow.appendChild(td);
 		}
 
-		tableFoot.appendChild(tr);
+		tableFoot.appendChild(footRow);
 
 		return tableFoot;
 	}
@@ -166,6 +173,7 @@ class Table {
 	getTableDepth(tableLocation, data) {
 		const props = tableLocation.split("/");
 		const propsLength = props.length;
+
 		if (propsLength === 1) {
 			return data.result[props[0]];
 		} else if (propsLength === 2) {
@@ -179,7 +187,7 @@ class Table {
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle, this);
 		const tableBody = TableCreator.tableBody(data, columnBased);
-		const table = document.createElement("table");
+		const table = document.createElement("div");
 		table.classList.add("table");
 		table.appendChild(tableHead);
 		table.appendChild(tableBody);
@@ -332,7 +340,7 @@ class App {
 		});
 
 		const searchInput = document.getElementById("search-input");
-		const searchTargetsSelector = "#accounting-reports tbody td:first-child";
+		const searchTargetsSelector = "#accounting-reports .table-body span:first-child";
 		searchInput.addEventListener("input", App.searchHandler.bind(searchInput, searchTargetsSelector));
 
 		document.addEventListener("click", App.closeFiltersHandler, true);
@@ -360,9 +368,9 @@ class App {
 				nameCell.innerHTML = name;
 				nameCell.parentNode.classList.remove("hide");
 			} else {
-				const searchedName = name.replace(regex, "<span class='highlight'>$&</span>");
+				const searchedName = name.replace(regex, "<strong class='highlight'>$&</strong>");
 				nameCell.innerHTML = searchedName;
-				
+
 				if (searchedName !== name) {
 					nameCell.parentNode.classList.remove("hide");
 				} else {
