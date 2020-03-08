@@ -1,7 +1,9 @@
 class TableModifier {
-	static tableSort(tableObject, th) {
+	static tableSort() {
+		const th = event.target.closest("span");
 		const sortMethod = th.dataset.sortMethod;
-		const textBasedMethods = ["gameName", "currency", "time", "playerId", "portalName"];
+		const columnIndex = Array.from(th.parentNode.children).indexOf(th);
+		const textBasedMethods = ["gameName", "currency", "time", "playerId", "portalName", "activity"];
 		const columnType = textBasedMethods.includes(sortMethod) ? "text" : "number";
 		let sortDirection;
 
@@ -24,18 +26,25 @@ class TableModifier {
 			}
 		}
 
-		tableObject.tableData.sort(TableModifier.compare(sortMethod, columnType, sortDirection));
-		const unsortedTable = document.querySelector(`#${tableObject.id} .table-body`);
-		const sortedTable = TableCreator.tableBody(tableObject.tableData);
-		unsortedTable.replaceWith(sortedTable);
+		const table = this.nextElementSibling;
+		const unsortedRows = table.children;
+		const sorted = Array.from(unsortedRows).sort(TableModifier.compare(columnIndex, columnType, sortDirection));
+		table.innerHTML = "";
+		for (const row of sorted) {
+			table.appendChild(row);
+		}
 	}
 
-	static compare(sortMethod, columnType, sortDirection) {
+	static compare(ind, columnType, sortDirection) {
 		return function innerSort(a, b) {
 			const valueA =
-				columnType === "number" ? parseFloat(a[sortMethod].toString().replace(/,/g, "")) : a[sortMethod].toUpperCase();
+				columnType === "number"
+					? parseFloat(a.children[ind].textContent.replace(/,/g, ""))
+					: a.children[ind].textContent.toUpperCase();
 			const valueB =
-				columnType === "number" ? parseFloat(b[sortMethod].toString().replace(/,/g, "")) : b[sortMethod].toUpperCase();
+				columnType === "number"
+					? parseFloat(b.children[ind].textContent.replace(/,/g, ""))
+					: b.children[ind].textContent.toUpperCase();
 
 			let comparison = 0;
 			if (valueA > valueB) {
@@ -68,7 +77,7 @@ class TableModifier {
 }
 
 class TableCreator {
-	static tableHead(data, columnBased, firstColumnTitle, tableObject) {
+	static tableHead(data, columnBased, firstColumnTitle) {
 		const tableHead = document.createElement("div");
 		tableHead.classList.add("table-head");
 		const headRow = document.createElement("div");
@@ -77,6 +86,7 @@ class TableCreator {
 		if (columnBased) {
 			const thfirst = document.createElement("span");
 			thfirst.textContent = firstColumnTitle;
+			thfirst.setAttribute("data-sort-method", firstColumnTitle.toLowerCase());
 			headRow.appendChild(thfirst);
 
 			for (const columnTitle in data) {
@@ -89,7 +99,6 @@ class TableCreator {
 				const th = document.createElement("span");
 				th.textContent = columnTitle;
 				th.setAttribute("data-sort-method", columnTitle);
-				th.addEventListener("click", TableModifier.tableSort.bind(null, tableObject, th));
 				headRow.appendChild(th);
 			}
 		}
@@ -212,11 +221,13 @@ class Table {
 		}
 	}
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
-		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle, this);
-		const eventsRemovable = dataSum ? true : false;
-		const tableBody = TableCreator.tableBody(data, columnBased, eventsRemovable);
+		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle);
+		tableHead.addEventListener("click", TableModifier.tableSort);
 
+		const eventsRemovable = !columnBased;
+		const tableBody = TableCreator.tableBody(data, columnBased, eventsRemovable);
 		if (eventsRemovable) {
+			tableBody.classList.add("removable");
 			tableBody.addEventListener("click", TableModifier.eventRemove.bind(tableBody, data));
 		}
 
