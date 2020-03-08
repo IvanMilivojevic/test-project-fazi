@@ -46,6 +46,25 @@ class TableModifier {
 			return sortDirection === "desc" ? comparison * -1 : comparison;
 		};
 	}
+
+	static eventRemove(tableData) {
+		const eventDelete = confirm("Do you want to delete this event ?");
+
+		if (!eventDelete) {
+			return;
+		}
+
+		const eventRow = event.target.closest(".table-row");
+		const eventId = +eventRow.id;
+
+		for (let i = 0; i < tableData.length; i++) {
+			if (tableData[i].id === eventId) {
+				tableData.splice(i, 1);
+				eventRow.remove();
+				break;
+			}
+		}
+	}
 }
 
 class TableCreator {
@@ -80,7 +99,7 @@ class TableCreator {
 		return tableHead;
 	}
 
-	static tableBody(data, columnBased) {
+	static tableBody(data, columnBased, eventsRemovable) {
 		const tableBody = document.createElement("div");
 		tableBody.classList.add("table-body");
 
@@ -112,6 +131,14 @@ class TableCreator {
 					const td = document.createElement("span");
 					td.textContent = row[key];
 					tr.appendChild(td);
+				}
+
+				if (eventsRemovable) {
+					const eventId = Math.random();
+					Object.defineProperty(row, "id", {
+						value: eventId
+					});
+					tr.id = eventId;
 				}
 
 				tableBody.appendChild(tr);
@@ -186,7 +213,13 @@ class Table {
 	}
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle, this);
-		const tableBody = TableCreator.tableBody(data, columnBased);
+		const eventsRemovable = dataSum ? true : false;
+		const tableBody = TableCreator.tableBody(data, columnBased, eventsRemovable);
+
+		if (eventsRemovable) {
+			tableBody.addEventListener("click", TableModifier.eventRemove.bind(tableBody, data));
+		}
+
 		const table = document.createElement("div");
 		table.classList.add("table");
 		table.appendChild(tableHead);
@@ -226,104 +259,106 @@ class Table {
 
 class App {
 	static init() {
-		const dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
-		const gamesSummary = new Table(
-			"gameStatisticsPerGame",
-			"assets/json/statistic-games-summary.json",
-			"games-summary-table",
-			false,
-			false,
-			"gameStatisticsSum"
-		);
-		const jackpotsSilver = new Table(
-			"jackpots/Silver/dashboardJackpots",
-			"assets/json/dashboard.json",
-			"jackpots-silver-table",
-			false,
-			false
-		);
-		const jackpotsGold = new Table(
-			"jackpots/Gold/dashboardJackpots",
-			"assets/json/dashboard.json",
-			"jackpots-gold-table",
-			false,
-			false
-		);
-		const jackpotsPlatinum = new Table(
-			"jackpots/Platinum/dashboardJackpots",
-			"assets/json/dashboard.json",
-			"jackpots-platinum-table",
-			false,
-			false
-		);
-		const jackpotsDiamond = new Table(
-			"jackpots/Diamond/dashboardJackpots",
-			"assets/json/dashboard.json",
-			"jackpots-diamond-table",
-			false,
-			false
-		);
-		const portalEur = new Table(
-			"portalsActivities/Portal-EUR/activities",
-			"assets/json/dashboard.json",
-			"dashboard-portal-eur-table",
-			true,
-			"Activity"
-		);
-		const portalUsd = new Table(
-			"portalsActivities/Portal-USD/activities",
-			"assets/json/dashboard.json",
-			"dashboard-portal-usd-table",
-			true,
-			"Activity"
-		);
-		const portalRsd = new Table(
-			"portalsActivities/Portal-RSD/activities",
-			"assets/json/dashboard.json",
-			"dashboard-portal-rsd-table",
-			true,
-			"Activity"
-		);
-		const slotAccounting = new Table(
-			"slotAccounting",
-			"assets/json/accounting-reports.json",
-			"slot-accounting-table",
-			false,
-			false,
-			"slotAccountingSum"
-		);
-		const rouletteAccounting = new Table(
-			"rouletteAccounting",
-			"assets/json/accounting-reports.json",
-			"roulette-accounting-table",
-			false,
-			false,
-			"rouletteAccountingSum"
-		);
-		const lerAccounting = new Table(
-			"liveEuropeanRouletteAccounting",
-			"assets/json/accounting-reports.json",
-			"ler-accounting-table",
-			false,
-			false,
-			"liveEuropeanRouletteAccountingSum"
-		);
-		const tcrAccounting = new Table(
-			"tripleCrownRouletteAccounting",
-			"assets/json/accounting-reports.json",
-			"tcr-accounting-table",
-			false,
-			false,
-			"tripleCrownRouletteAccountingSum"
-		);
-		const pokerAccounting = new Table(
-			"pokerAccounting",
-			"assets/json/accounting-reports.json",
-			"poker-accounting-table",
-			false,
-			false,
-			"pokerAccountingSum"
-		);
+		{
+			const dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
+			const gamesSummary = new Table(
+				"gameStatisticsPerGame",
+				"assets/json/statistic-games-summary.json",
+				"games-summary-table",
+				false,
+				false,
+				"gameStatisticsSum"
+			);
+			const jackpotsSilver = new Table(
+				"jackpots/Silver/dashboardJackpots",
+				"assets/json/dashboard.json",
+				"jackpots-silver-table",
+				false,
+				false
+			);
+			const jackpotsGold = new Table(
+				"jackpots/Gold/dashboardJackpots",
+				"assets/json/dashboard.json",
+				"jackpots-gold-table",
+				false,
+				false
+			);
+			const jackpotsPlatinum = new Table(
+				"jackpots/Platinum/dashboardJackpots",
+				"assets/json/dashboard.json",
+				"jackpots-platinum-table",
+				false,
+				false
+			);
+			const jackpotsDiamond = new Table(
+				"jackpots/Diamond/dashboardJackpots",
+				"assets/json/dashboard.json",
+				"jackpots-diamond-table",
+				false,
+				false
+			);
+			const portalEur = new Table(
+				"portalsActivities/Portal-EUR/activities",
+				"assets/json/dashboard.json",
+				"dashboard-portal-eur-table",
+				true,
+				"Activity"
+			);
+			const portalUsd = new Table(
+				"portalsActivities/Portal-USD/activities",
+				"assets/json/dashboard.json",
+				"dashboard-portal-usd-table",
+				true,
+				"Activity"
+			);
+			const portalRsd = new Table(
+				"portalsActivities/Portal-RSD/activities",
+				"assets/json/dashboard.json",
+				"dashboard-portal-rsd-table",
+				true,
+				"Activity"
+			);
+			const slotAccounting = new Table(
+				"slotAccounting",
+				"assets/json/accounting-reports.json",
+				"slot-accounting-table",
+				false,
+				false,
+				"slotAccountingSum"
+			);
+			const rouletteAccounting = new Table(
+				"rouletteAccounting",
+				"assets/json/accounting-reports.json",
+				"roulette-accounting-table",
+				false,
+				false,
+				"rouletteAccountingSum"
+			);
+			const lerAccounting = new Table(
+				"liveEuropeanRouletteAccounting",
+				"assets/json/accounting-reports.json",
+				"ler-accounting-table",
+				false,
+				false,
+				"liveEuropeanRouletteAccountingSum"
+			);
+			const tcrAccounting = new Table(
+				"tripleCrownRouletteAccounting",
+				"assets/json/accounting-reports.json",
+				"tcr-accounting-table",
+				false,
+				false,
+				"tripleCrownRouletteAccountingSum"
+			);
+			const pokerAccounting = new Table(
+				"pokerAccounting",
+				"assets/json/accounting-reports.json",
+				"poker-accounting-table",
+				false,
+				false,
+				"pokerAccountingSum"
+			);
+		}
 
 		const multiselectAllFilter = document.querySelector(".ms-select-all");
 		multiselectAllFilter.addEventListener("click", App.multiselectFilterHandle);
@@ -402,7 +437,7 @@ class App {
 	static navigationHandler(contentHolder) {
 		event.preventDefault();
 		const menuItemSelected = event.target.closest("li");
-		const menuItemLink = event.target.closest("a").dataset.href;
+		const menuItemLink = event.target.closest("a") ? event.target.closest("a").dataset.href : false;
 
 		if (!menuItemLink) {
 			return;

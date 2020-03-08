@@ -146,6 +146,10 @@ a {
 .table .table-row.hide {
 	display: none;
 }
+.table .table-body .table-row:hover > span {
+	background-color: #222;
+	cursor: pointer;
+}
 .table .table-foot span {
   background-color: #20272f;
   overflow: hidden;
