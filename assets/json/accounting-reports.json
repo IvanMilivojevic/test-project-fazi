@@ -11,7 +11,7 @@
         "jackpot": "0.00",
         "ggr": "1,035.72",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "12.98",
         "gamingTax": "0.00",
         "ngr": "1,035.72",
         "toBePaid": "82.86"
@@ -23,7 +23,7 @@
         "jackpot": "0.00",
         "ggr": "-30.00",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "1.00",
         "gamingTax": "0.00",
         "ngr": "-30.00",
         "toBePaid": "-2.40"
@@ -47,7 +47,7 @@
         "jackpot": "0.00",
         "ggr": "265.67",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "58.12",
         "gamingTax": "0.00",
         "ngr": "265.67",
         "toBePaid": "21.25"
@@ -59,7 +59,7 @@
         "jackpot": "0.00",
         "ggr": "46.86",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "4.22",
         "gamingTax": "0.00",
         "ngr": "46.86",
         "toBePaid": "3.75"
@@ -71,7 +71,7 @@
         "jackpot": "0.00",
         "ggr": "-25.44",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "22.00",
         "gamingTax": "0.00",
         "ngr": "-25.44",
         "toBePaid": "-2.04"
@@ -95,7 +95,7 @@
         "jackpot": "0.00",
         "ggr": "1,716.75",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "14.00",
         "gamingTax": "0.00",
         "ngr": "1,716.75",
         "toBePaid": "137.34"
@@ -107,7 +107,7 @@
         "jackpot": "0.00",
         "ggr": "384.02",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "17.00",
         "gamingTax": "0.00",
         "ngr": "384.02",
         "toBePaid": "30.72"
@@ -119,7 +119,7 @@
         "jackpot": "0.00",
         "ggr": "514.55",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "2.00",
         "gamingTax": "0.00",
         "ngr": "514.55",
         "toBePaid": "41.16"
@@ -143,7 +143,7 @@
         "jackpot": "0.00",
         "ggr": "35.84",
         "vat": "0.00",
-        "bonusRate": "0.00",
+        "bonusRate": "71.00",
         "gamingTax": "0.00",
         "ngr": "35.84",
         "toBePaid": "2.87"

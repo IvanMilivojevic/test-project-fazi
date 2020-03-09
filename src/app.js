@@ -68,7 +68,8 @@ class App {
 				"slot-accounting-table",
 				false,
 				false,
-				"slotAccountingSum"
+				"slotAccountingSum",
+				"bonusRate"
 			);
 			const rouletteAccounting = new Table(
 				"rouletteAccounting",

@@ -55,7 +55,8 @@ export class TableCreator {
 					td.textContent = Object.values(data[column])[i];
 					if (column === "Change") {
 						const diff = td.textContent == 0 ? "same" : td.textContent > 0 ? "up" : "down";
-						td.classList.add("change", diff);
+            td.classList.add("change", diff);
+            td.textContent += "%";
 					}
 					tr.appendChild(td);
 				}

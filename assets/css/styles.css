@@ -193,7 +193,8 @@ a {
 }
 .panel-filters {
   margin: 20px 0;
-  display: flex;
+	display: flex;
+	align-items: center;
 	flex-wrap: wrap;
 	position: relative;
 	z-index: 10;
@@ -318,4 +319,22 @@ a {
 #portals-filter .dropdown-button {
 	background: #313c4a;
 	padding: 0 5px;
+}
+.slider-filter {
+	display: flex;
+	align-items: center;
+	border: 1px solid #fff;
+	padding: 1px 2px 1px 10px;
+}
+#slider-bonus {
+	margin: 0 20px;
+}
+#slider-bonus-field {
+	background: #313c4a;
+	border: 1px solid #222;
+	height: 26px;
+	width: 80px;
+	outline: none;
+	padding: 5px;
+	color: #fff;
 }
