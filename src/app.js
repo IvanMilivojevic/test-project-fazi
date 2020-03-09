@@ -74,6 +74,18 @@ class TableModifier {
 			}
 		}
 	}
+
+	static nameFormater(name) {
+		let formatedName;
+
+		if (name === "ggr" || name === "vat" || name === "ngr") {
+			formatedName = name.toUpperCase();
+		} else {
+			formatedName = name.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
+		}
+
+		return formatedName;
+	}
 }
 
 class TableCreator {
@@ -97,7 +109,7 @@ class TableCreator {
 		} else {
 			for (const columnTitle in data[0]) {
 				const th = document.createElement("span");
-				th.textContent = columnTitle;
+				th.textContent = TableModifier.nameFormater(columnTitle);
 				th.setAttribute("data-sort-method", columnTitle);
 				headRow.appendChild(th);
 			}
@@ -113,7 +125,8 @@ class TableCreator {
 		tableBody.classList.add("table-body");
 
 		if (columnBased) {
-			const bodyRowNames = Object.keys(data[Object.keys(data)[0]]);
+			let bodyRowNames = Object.keys(data[Object.keys(data)[0]]);
+			bodyRowNames = bodyRowNames.map(name => TableModifier.nameFormater(name));
 			const bodyRowCount = bodyRowNames.length;
 
 			for (let i = 0; i < bodyRowCount; i++) {
@@ -194,15 +207,15 @@ class Table {
 	getData(url) {
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
-
 			xhr.open("GET", url);
-
 			xhr.responseType = "json";
 
 			xhr.onload = function() {
 				resolve(xhr.response);
 			};
-
+			xhr.onerror = function() {
+				reject(xhr.response);
+			};
 			xhr.send();
 		});
 	}
