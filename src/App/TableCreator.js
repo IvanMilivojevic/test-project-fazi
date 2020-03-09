@@ -28,8 +28,8 @@ export class TableCreator {
 			}
 		}
 
-    tableHead.appendChild(headRow);
-    tableHead.addEventListener("click", TableModifier.tableSort);
+		tableHead.appendChild(headRow);
+		tableHead.addEventListener("click", TableModifier.tableSort);
 
 		return tableHead;
 	}
@@ -53,6 +53,10 @@ export class TableCreator {
 				for (const column in data) {
 					const td = document.createElement("span");
 					td.textContent = Object.values(data[column])[i];
+					if (column === "Change") {
+						const diff = td.textContent == 0 ? "same" : td.textContent > 0 ? "up" : "down";
+						td.classList.add("change", diff);
+					}
 					tr.appendChild(td);
 				}
 
@@ -69,16 +73,16 @@ export class TableCreator {
 					tr.appendChild(td);
 				}
 
-        const eventId = Math.random();
-        Object.defineProperty(row, "id", {
-          value: eventId
-        });
-        tr.id = eventId;
+				const eventId = Math.random();
+				Object.defineProperty(row, "id", {
+					value: eventId
+				});
+				tr.id = eventId;
 
 				tableBody.appendChild(tr);
-      }
-      
-      tableBody.classList.add("removable");
+			}
+
+			tableBody.classList.add("removable");
 			tableBody.addEventListener("click", TableModifier.eventRemove.bind(tableBody, data));
 		}
 

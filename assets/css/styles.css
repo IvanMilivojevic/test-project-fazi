@@ -130,12 +130,13 @@ a {
 	background-color: #20272f;
 }
 .table .table-head span.asc:after,
-.table .table-head span.desc:after {
+.table .table-head span.desc:after,
+.change:after {
 	content: "";
 	width: 0;
 	height: 0;
 	display: inline-flex;
-	border: 6px solid #dd9853;
+	border: 6px solid #fff;
 	border-top: 0;
 	border-left-color: transparent;
 	border-right-color: transparent;
@@ -158,6 +159,27 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.change {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.change:after {
+	margin-left: 10px;
+}
+.change.up:after {
+	border-bottom-color: #32cd32;
+}
+.change.down:after {
+	border-bottom-color: #ff1f39;
+	transform: rotate(180deg);
+}
+.change.same:after {
+	border: 0;
+	width: 12px;
+	height: 2px;
+	background-color: #dd9853;
 }
 .table .highlight {
 	background-color: red;
@@ -266,14 +288,34 @@ a {
 	border-bottom: 2px solid #fff;
 	transform: rotate(-45deg);
 }
-.filter-item .label:hover {
+.filter-item .label:hover,
+.sng-filter .dd-options .label.active {
   background-color: #ce853c;
 }
 .acc-table,
-.dd-options .label {
+.dd-options .label,
+.portal-table {
   display: none;
 }
 .acc-table.active,
-.dd-options .label.active {
+.dd-options .label.active,
+.portal-table.active {
   display: block;
+}
+.sng-filter .dd-options .label {
+	display: none;
+	padding-left: 5px;
+}
+.sng-filter .dd-options .label.checked {
+	display: block;
+}
+#portals-filter {
+	margin-left: auto;
+	width: 100px;
+	text-align: center;
+	line-height: 30px;
+}
+#portals-filter .dropdown-button {
+	background: #313c4a;
+	padding: 0 5px;
 }

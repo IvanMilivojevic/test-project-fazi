@@ -15,9 +15,9 @@ export class Table {
 			})
 			.catch(data => {
 				document.getElementById(this.id).textContent = "Error displaying table.";
-      });
-  }
-  
+			});
+	}
+
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle);
 		const tableBody = TableCreator.tableBody(data, columnBased);
@@ -33,24 +33,25 @@ export class Table {
 		}
 
 		document.getElementById(this.id).appendChild(table);
-  }
-  
+	}
+
 	conectFilter() {
 		const tableContainer = document.getElementById(this.id);
 
-		if (!tableContainer.classList.contains("filterable")) {
-			return;
-		}
+		if (tableContainer.classList.contains("filterable")) {
+			const labelFilter = document.querySelector(`.filter-item .label[data-href=${this.id}]`);
+			labelFilter.classList.add("active");
+			labelFilter.addEventListener("click", this.attachFilter);
 
-		const labelFilter = document.querySelector(`.filter-item .label[data-href=${this.id}]`);
-		labelFilter.classList.add("active");
-		labelFilter.addEventListener("click", this.attachFilter);
-
-		if (tableContainer.classList.contains("active")) {
+			if (tableContainer.classList.contains("active")) {
+				labelFilter.classList.add("checked");
+			}
+		} else if (tableContainer.classList.contains("switchable")) {
+			const labelFilter = document.querySelector(`.filter-item [data-href=${this.id}]`);
 			labelFilter.classList.add("checked");
 		}
-  }
-  
+	}
+
 	attachFilter() {
 		const filterName = this.dataset.href;
 		this.classList.toggle("checked");

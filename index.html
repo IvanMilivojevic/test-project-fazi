@@ -51,9 +51,21 @@
 							</div>
 						</div>
 						<div id="dashboard-portals" class="panel-content">
-							<div id="dashboard-portal-eur-table"></div>
-							<div id="dashboard-portal-usd-table"></div>
-							<div id="dashboard-portal-rsd-table"></div>
+							<div class="panel-filters">
+								<div class="sng-filter filter-item" id="portals-filter">
+									<div class="dropdown-button">Select Portal</div>
+									<div class="dropdown-holder">
+										<div class="dd-options">
+											<div class="label" data-href="dashboard-portal-eur-table">Portal EUR</div>
+											<div class="label" data-href="dashboard-portal-usd-table">Portal USD</div>
+											<div class="label" data-href="dashboard-portal-rsd-table">Portal RSD</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="dashboard-portal-eur-table" class="portal-table switchable active"><h3>Portal EUR</h3></div>
+							<div id="dashboard-portal-usd-table" class="portal-table switchable"><h3>Portal USD</h3></div>
+							<div id="dashboard-portal-rsd-table" class="portal-table switchable"><h3>Portal RSD</h3></div>
 						</div>
 					</div>
 				</div>

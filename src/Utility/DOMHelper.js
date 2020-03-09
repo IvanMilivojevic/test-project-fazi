@@ -3,6 +3,10 @@ export class DOMHelper {
 		const multiselectAllFilter = document.querySelector(".ms-select-all");
 		multiselectAllFilter.addEventListener("click", this.multiselectFilterHandle);
 
+		const singleFilter = document.querySelector(".sng-filter .dd-options");
+		const portalsContentHolder = document.querySelectorAll(".portal-table");
+		singleFilter.addEventListener("click", this.navigationHandler.bind(null, portalsContentHolder, "div", "div"));
+
 		const dropdownButons = document.querySelectorAll(".filter-item .dropdown-button");
 		for (const button of dropdownButons) {
 			button.addEventListener("click", this.dropdownHandler);
@@ -22,15 +26,15 @@ export class DOMHelper {
 
 		const sidebarMenu = document.getElementById("sidebar-menu");
 		const pagesContentHolder = document.querySelectorAll("#main-content .page");
-		sidebarMenu.addEventListener("click", this.navigationHandler.bind(null, pagesContentHolder));
+		sidebarMenu.addEventListener("click", this.navigationHandler.bind(null, pagesContentHolder, "li", "a"));
 
 		const panelNavs = document.querySelectorAll(".panel-nav");
 		for (const panelNav of panelNavs) {
 			const panelsContentHolder = panelNav.parentNode.querySelector(".panel-content-wrapper").children;
-			panelNav.addEventListener("click", this.navigationHandler.bind(null, panelsContentHolder));
+			panelNav.addEventListener("click", this.navigationHandler.bind(null, panelsContentHolder, "li", "a"));
 		}
 	}
-	
+
 	static searchHandler(searchTargetsSelector) {
 		const searchValue = this.value.trim();
 		const searchTargets = document.querySelectorAll(searchTargetsSelector);
@@ -74,10 +78,10 @@ export class DOMHelper {
 		}
 	}
 
-	static navigationHandler(contentHolder) {
+	static navigationHandler(contentHolder, toggleItem, hrefItem) {
 		event.preventDefault();
-		const menuItemSelected = event.target.closest("li");
-		const menuItemLink = event.target.closest("a") ? event.target.closest("a").dataset.href : false;
+		const menuItemSelected = event.target.closest(toggleItem);
+		const menuItemLink = event.target.closest(hrefItem) ? event.target.closest(hrefItem).dataset.href : false;
 
 		if (!menuItemLink) {
 			return;
