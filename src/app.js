@@ -3,7 +3,17 @@ import { DOMHelper } from "./Utility/DOMHelper.js";
 
 class App {
 	static init() {
+		/* In this block all of the tables are initialized, best option would be probably to 
+		create only tables in that page while others are created when user visits those pages */
 		{
+			/* Every Table class is based on max 7 arguments and they are:
+			1. place of table in json file (splited with / if its nested) 
+			2. json file of table
+			3. id of location where table will be inserted
+			4. type of table in json file because of different render
+			5. Title of first column in column ordered table because that cant be found tables thats why is argument
+			6. Location of table sum in footer if exists
+			7. slider key if its connected to that table */
 			const dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
 			const gamesSummary = new Table(
 				"gameStatisticsPerGame",

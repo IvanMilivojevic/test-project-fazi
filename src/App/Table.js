@@ -3,10 +3,13 @@ import { TableCreator } from "./TableCreator.js";
 
 export class Table {
 	constructor(tableLocation, url, renderPlaceId, columnBased, firstColumnTitle, tableLocationSum, sliderKey) {
-		this.id = renderPlaceId;
+    this.id = renderPlaceId;
+    // Promise based helper function to fetch data from json
 		getData(url)
 			.then(data => {
-				this.tableData = getTableDepth(tableLocation, data);
+        // Helper function that will find table in json file
+        this.tableData = getTableDepth(tableLocation, data);
+        // And in case there is table sum in footer
 				if (tableLocationSum) {
 					this.tableDataSum = [getTableDepth(tableLocationSum, data)];
 				}
@@ -17,12 +20,12 @@ export class Table {
 				}
 			})
 			.catch(data => {
-				console.log(data);
 				document.getElementById(this.id).textContent = "Error displaying table.";
 			});
 	}
-
+  // Table creation is based on 2 must steps for head and body while footer is optional if has sum
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
+    // Table head and body get those parameteres for differenet rendering
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle);
 		const tableBody = TableCreator.tableBody(data, columnBased);
 
@@ -42,7 +45,10 @@ export class Table {
 	conectFilter() {
 		const tableContainer = document.getElementById(this.id);
 
+    // This filter is for tables that are connected to multiselect while the other is for single
 		if (tableContainer.classList.contains("filterable")) {
+      /* this filter is created in html already but preferable was to create template
+       and everytime filter is needed create one based on that dinamically */
 			const labelFilter = document.querySelector(`.filter-item .label[data-href=${this.id}]`);
 			labelFilter.classList.add("active");
 			labelFilter.addEventListener("click", this.attachFilter);
@@ -64,7 +70,7 @@ export class Table {
 			.querySelector(".ms-select-all")
 			.classList.remove("checked");
 	}
-
+  // This filter is example of programatically created filter which sets values based on key argument
 	connectSlider(sliderKey, data) {
 		const sliderTemplate = document.getElementById("slider-template");
 		const slider = sliderTemplate.content.cloneNode(true);

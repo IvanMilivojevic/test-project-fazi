@@ -1,5 +1,6 @@
 export class DOMHelper {
 	static init() {
+		/* all of the listeners for the dom oncluding filters and panel navigation to go through the app */
 		const multiselectAllFilter = document.querySelector(".ms-select-all");
 		multiselectAllFilter.addEventListener("click", this.multiselectFilterHandle);
 
@@ -22,6 +23,7 @@ export class DOMHelper {
 		const searchTargetsSelector = "#accounting-reports .table-body span:first-child";
 		searchInput.addEventListener("input", this.searchHandler.bind(searchInput, searchTargetsSelector));
 
+		// document listener to close all opened filters
 		document.addEventListener("click", this.closeFiltersHandler, true);
 
 		const sidebarMenu = document.getElementById("sidebar-menu");
@@ -34,7 +36,7 @@ export class DOMHelper {
 			panelNav.addEventListener("click", this.navigationHandler.bind(null, panelsContentHolder, "li", "a"));
 		}
 	}
-
+	// search will go through the cells of the tables which are provided and temporary hiding the row
 	static searchHandler(searchTargetsSelector) {
 		const searchValue = this.value.trim();
 		const searchTargets = document.querySelectorAll(searchTargetsSelector);
@@ -77,7 +79,7 @@ export class DOMHelper {
 			openedFilter.classList.remove("show");
 		}
 	}
-
+	// navigation can be used on places where multiple elemnts control the same named containers via data-href and id connection
 	static navigationHandler(contentHolder, toggleItem, hrefItem) {
 		event.preventDefault();
 		const menuItemSelected = event.target.closest(toggleItem);

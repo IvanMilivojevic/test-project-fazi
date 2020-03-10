@@ -8,9 +8,13 @@ export class TableCreator {
 		const headRow = document.createElement("div");
 		headRow.classList.add("table-row");
 
+    /* column based tables are different in json than rowbased and harder parsed
+     because of structure where keys are atcually row names while in 
+     row based the keys are column titles */
 		if (columnBased) {
 			const thfirst = document.createElement("span");
-			thfirst.textContent = firstColumnTitle;
+      thfirst.textContent = firstColumnTitle;
+      // sort method is the key by which the column will be sorted
 			thfirst.setAttribute("data-sort-method", firstColumnTitle.toLowerCase());
 			headRow.appendChild(thfirst);
 
@@ -52,7 +56,8 @@ export class TableCreator {
 
 				for (const column in data) {
 					const td = document.createElement("span");
-					td.textContent = Object.values(data[column])[i];
+          td.textContent = Object.values(data[column])[i];
+          // exception for Change column found only here where arrows exist based on value
 					if (column === "Change") {
 						const diff = td.textContent == 0 ? "same" : td.textContent > 0 ? "up" : "down";
             td.classList.add("change", diff);
@@ -73,7 +78,9 @@ export class TableCreator {
 					td.textContent = row[key];
 					tr.appendChild(td);
 				}
-
+        /* unique non removable ID that is created only for row based tables because they can be 
+        removed from json file while column could be deleted only  visually from table
+         and thats why those tables dont have the option for removing rows */
 				const eventId = Math.random();
 				Object.defineProperty(row, "id", {
 					value: eventId
