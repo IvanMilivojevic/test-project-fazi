@@ -23,6 +23,24 @@ export class DOMHelper {
 		const searchTargetsSelector = "#accounting-reports .table-body span:first-child";
 		searchInput.addEventListener("input", this.searchHandler.bind(searchInput, searchTargetsSelector));
 
+		const mobileToggle = document.querySelector(".mobile-toggle");
+		mobileToggle.addEventListener("click", () => {
+			document.querySelector("body").classList.toggle("sidenav-active");
+		});
+
+		document.getElementById("sidebar").addEventListener(
+			"click",
+			() => {
+				const menuButton = document.querySelector(".mobile-toggle");
+				const menu = document.getElementById("sidebar-menu");
+
+				if (event.target.closest(".mobile-toggle") !== menuButton && event.target.closest("#sidebar-menu") !== menu) {
+					document.querySelector("body").classList.remove("sidenav-active");
+				}
+			},
+			true
+		);
+
 		// document listener to close all opened filters
 		document.addEventListener("click", this.closeFiltersHandler, true);
 

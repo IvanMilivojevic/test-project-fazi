@@ -29,6 +29,8 @@ export class Table {
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle);
 		const tableBody = TableCreator.tableBody(data, columnBased);
 
+		const tableWrapper = document.createElement("div");
+		tableWrapper.classList.add("table-wrapper");
 		const table = document.createElement("div");
 		table.classList.add("table");
 		table.appendChild(tableHead);
@@ -39,7 +41,8 @@ export class Table {
 			table.appendChild(tableFoot);
 		}
 
-		document.getElementById(this.id).appendChild(table);
+		tableWrapper.appendChild(table);
+		document.getElementById(this.id).appendChild(tableWrapper);
 	}
 
 	conectFilter() {
@@ -91,6 +94,8 @@ export class Table {
 		const sliderInput = slider.querySelector("input[type=number]");
 		sliderRange.setAttribute("min", sliderMin);
 		sliderRange.setAttribute("max", sliderMax);
+		sliderInput.setAttribute("min", sliderMin);
+		sliderInput.setAttribute("max", sliderMax);
 		sliderRange.addEventListener("input", function() {
 			sliderInput.value = this.value;
     });
