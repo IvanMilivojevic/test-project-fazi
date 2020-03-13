@@ -1,15 +1,25 @@
 import { getData, getTableDepth } from "../Utility/TableHelper.js";
 import { TableCreator } from "./TableCreator.js";
+import datepicker from "js-datepicker";
 
 export class Table {
-	constructor(tableLocation, url, renderPlaceId, columnBased, firstColumnTitle, tableLocationSum, sliderKey) {
-    this.id = renderPlaceId;
-    // Promise based helper function to fetch data from json
+	constructor(
+		tableLocation,
+		url,
+		renderPlaceId,
+		columnBased,
+		firstColumnTitle,
+		tableLocationSum,
+		sliderKey,
+		dateFilterTable
+	) {
+		this.id = renderPlaceId;
+		// Promise based helper function to fetch data from json
 		getData(url)
 			.then(data => {
-        // Helper function that will find table in json file
-        this.tableData = getTableDepth(tableLocation, data);
-        // And in case there is table sum in footer
+				// Helper function that will find table in json file
+				this.tableData = getTableDepth(tableLocation, data);
+				// And in case there is table sum in footer
 				if (tableLocationSum) {
 					this.tableDataSum = [getTableDepth(tableLocationSum, data)];
 				}
@@ -18,14 +28,19 @@ export class Table {
 				if (sliderKey) {
 					this.connectSlider(sliderKey, this.tableData);
 				}
+				if (dateFilterTable) {
+					this.tableDataDate = getTableDepth(dateFilterTable, data);
+					this.connectDateRange(this.tableDataDate);
+				}
 			})
 			.catch(data => {
+				console.log(data);
 				document.getElementById(this.id).textContent = "Error displaying table.";
 			});
 	}
-  // Table creation is based on 2 must steps for head and body while footer is optional if has sum
+	// Table creation is based on 2 must steps for head and body while footer is optional if has sum
 	createTable(data, columnBased, firstColumnTitle, dataSum) {
-    // Table head and body get those parameteres for differenet rendering
+		// Table head and body get those parameteres for differenet rendering
 		const tableHead = TableCreator.tableHead(data, columnBased, firstColumnTitle);
 		const tableBody = TableCreator.tableBody(data, columnBased);
 
@@ -48,9 +63,9 @@ export class Table {
 	conectFilter() {
 		const tableContainer = document.getElementById(this.id);
 
-    // This filter is for tables that are connected to multiselect while the other is for single
+		// This filter is for tables that are connected to multiselect while the other is for single
 		if (tableContainer.classList.contains("filterable")) {
-      /* this filter is created in html already but preferable was to create template
+			/* this filter is created in html already but preferable was to create template
        and everytime filter is needed create one based on that dinamically */
 			const labelFilter = document.querySelector(`.filter-item .label[data-href=${this.id}]`);
 			labelFilter.classList.add("active");
@@ -73,7 +88,7 @@ export class Table {
 			.querySelector(".ms-select-all")
 			.classList.remove("checked");
 	}
-  // This filter is example of programatically created filter which sets values based on key argument
+	// This filter is example of programatically created filter which sets values based on key argument
 	connectSlider(sliderKey, data) {
 		const sliderTemplate = document.getElementById("slider-template");
 		const slider = sliderTemplate.content.cloneNode(true);
@@ -98,11 +113,40 @@ export class Table {
 		sliderInput.setAttribute("max", sliderMax);
 		sliderRange.addEventListener("input", function() {
 			sliderInput.value = this.value;
-    });
-    sliderInput.value = 0;
-    sliderInput.addEventListener("input", function() {
+		});
+		sliderInput.value = 0;
+		sliderInput.addEventListener("input", function() {
 			sliderRange.value = this.value;
 		});
 		filterPanel.appendChild(slider);
+	}
+
+	connectDateRange(dataDate) {
+		// const minDate = dataDate[Object.keys(dataDate)[0]];
+		// console.log(minDate);
+		const dateTemplate = document.getElementById("date-template");
+		const dateFilterStart = dateTemplate.content.cloneNode(true);
+		const dateFilterEnd = dateTemplate.content.cloneNode(true);
+		const inputStart = dateFilterStart.querySelector("input");
+		const pickerStart = datepicker(inputStart, {
+			id: 1,
+			onSelect: (instance, date) => {
+				const dateRange = pickerStart.getRange();
+			}
+		});
+		const inputEnd = dateFilterEnd.querySelector("input");
+		const pickerEnd = datepicker(inputEnd, {
+			id: 1,
+			onSelect: (instance, date) => {
+				const dateRange = pickerStart.getRange();
+			}
+		});
+		const filterPanel = document
+			.getElementById(this.id)
+			.closest(".page")
+			.querySelector(".panel-filters");
+		filterPanel.innerHTML = "<span>Period:</span>";
+		filterPanel.appendChild(dateFilterStart);
+		filterPanel.appendChild(dateFilterEnd);
 	}
 }

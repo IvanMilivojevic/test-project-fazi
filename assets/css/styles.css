@@ -339,7 +339,8 @@ a {
 #slider-bonus {
 	margin: 0 20px;
 }
-#slider-bonus-field {
+#slider-bonus-field,
+.date-filter input {
 	background: #313c4a;
 	border: 1px solid #222;
 	height: 26px;
@@ -347,6 +348,10 @@ a {
 	outline: none;
 	padding: 5px;
 	color: #fff;
+}
+.date-filter input {
+	width: auto;
+	margin: 0 10px;
 }
 
 @media screen and (max-width: 1199px) {

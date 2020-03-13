@@ -13,7 +13,8 @@ class App {
 			4. type of table in json file because of different render
 			5. Title of first column in column ordered table because that cant be found tables thats why is argument
 			6. Location of table sum in footer if exists
-			7. slider key if its connected to that table */
+			7. slider key if its connected to that table
+			8. table for date ranges */
 			const dashboard = new Table("activities", "assets/json/dashboard.json", "dashboard-table", true, "Activity");
 			const gamesSummary = new Table(
 				"gameStatisticsPerGame",
@@ -21,7 +22,9 @@ class App {
 				"games-summary-table",
 				false,
 				false,
-				"gameStatisticsSum"
+				"gameStatisticsSum",
+				false,
+				"operaterGamesStatistics"
 			);
 			const jackpotsSilver = new Table(
 				"jackpots/Silver/dashboardJackpots",
