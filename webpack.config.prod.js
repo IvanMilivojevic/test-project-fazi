@@ -8,5 +8,13 @@ module.exports = {
     path: path.resolve(__dirname, "assets", "scripts"),
     publicPath: "assets/scripts/"
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"]
+      }
+    ]
+  },
   devtool: "cheap-source-map"
 };

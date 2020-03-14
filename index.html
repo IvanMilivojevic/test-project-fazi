@@ -6,7 +6,6 @@
 		<title>Test Project Fazi</title>
 		<link rel="shortcut icon" type="image/png" href="./assets/images/favicon.ico" />
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
 		<link rel="stylesheet" href="./assets/css/styles.css" />
 		<script src="./assets/scripts/app.js" defer type="module"></script>
 	</head>
@@ -15,8 +14,8 @@
 			<div id="sidebar">
 				<div class="logo-wrapper"><img src="./assets/images/logo.png" alt="logo" /><div class="mobile-toggle"><span class="mobile-toggle-inner"><i></i></span></div></div>
 				<ul id="sidebar-menu">
-					<li><a href="#" data-href="dashboard-page">Dashboard</a></li>
-					<li class="active"><a href="#" data-href="statistic-page">Statistic</a></li>
+					<li class="active"><a href="#" data-href="dashboard-page">Dashboard</a></li>
+					<li><a href="#" data-href="statistic-page">Statistic</a></li>
 					<li><a href="#" data-href="accounting-page">Accounting</a></li>
 					<li><a href="#">Advance Statistics</a></li>
 					<li><a href="#">Operators</a></li>
@@ -26,7 +25,7 @@
 				</ul>
 			</div>
 			<div id="main-content">
-				<div id="dashboard-page" class="page">
+				<div id="dashboard-page" class="page active">
 					<ul class="panel-nav">
 						<li class="active"><a href="#" data-href="dashboard-dashboard">Dashboard</a></li>
 						<li><a href="#" data-href="dashboard-jackpots-wins">Jackpots Wins</a></li>
@@ -70,7 +69,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="statistic-page" class="page active">
+				<div id="statistic-page" class="page">
 					<ul class="panel-nav">
 						<li><a href="#">Summary</a></li>
 						<li class="active"><a href="#" data-href="statistic-games-summary">Games Summary</a></li>

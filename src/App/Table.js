@@ -1,6 +1,7 @@
 import { getData, getTableDepth } from "../Utility/TableHelper.js";
 import { TableCreator } from "./TableCreator.js";
 import datepicker from "js-datepicker";
+import "js-datepicker/dist/datepicker.min.css";
 
 export class Table {
 	constructor(
