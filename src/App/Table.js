@@ -178,7 +178,8 @@ export class Table {
 			}
 			i++;
 		}
-		// if there are no matches based on datepicker then exit with message
+		// exit with message if there are no matches based on datepicker and the JSON provided
+		// currently there are only available dates between 1st and 3rd April 2019
 		if (startIndex === undefined && endIndex === undefined) {
 			const oldTable = document.querySelector(`#${this.id} .table-body`);
 			oldTable.textContent = "No data for this period !";
@@ -207,8 +208,15 @@ export class Table {
 					}
 				}
 			}
-			sumGame.gameName = game;
-			sumGame.currency = "EUR";
+			for (const key in sumGame) {
+				if (key === "gameName") {
+					sumGame[key] = game;
+				} else if (key === "currency") {
+					sumGame[key] = "EUR";
+				} else {
+					sumGame[key] = +sumGame[key].toFixed(2);
+				}
+			}
 			dateTableNew.push(sumGame);
 		}
 
