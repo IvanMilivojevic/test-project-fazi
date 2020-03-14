@@ -34,7 +34,6 @@ export class Table {
 				}
 			})
 			.catch(data => {
-				console.log(data);
 				document.getElementById(this.id).textContent = "Error displaying table.";
 			});
 	}
@@ -120,10 +119,8 @@ export class Table {
 		});
 		filterPanel.appendChild(slider);
 	}
-
+	// Creation of filters for start date and end date and binding datepicker
 	connectDateRange(dataDate) {
-		// const minDate = dataDate[Object.keys(dataDate)[0]];
-		// console.log(minDate);
 		const dateTemplate = document.getElementById("date-template");
 		const dateFilterStart = dateTemplate.content.cloneNode(true);
 		const dateFilterEnd = dateTemplate.content.cloneNode(true);
@@ -132,15 +129,26 @@ export class Table {
 			id: 1,
 			onSelect: (instance, date) => {
 				const dateRange = pickerStart.getRange();
+				// only check for update data if both are defined
+				if (dateRange.start && dateRange.end) {
+					this.checkRange(dateRange, dataDate);
+				}
 			}
 		});
+		// Default date is set to April 1st because that was provided in JSON
+		pickerStart.setDate(new Date("04/01/2019"), true);
 		const inputEnd = dateFilterEnd.querySelector("input");
 		const pickerEnd = datepicker(inputEnd, {
 			id: 1,
 			onSelect: (instance, date) => {
 				const dateRange = pickerStart.getRange();
+
+				if (dateRange.start && dateRange.end) {
+					this.checkRange(dateRange, dataDate);
+				}
 			}
 		});
+		pickerEnd.setDate(new Date("04/01/2019"), true);
 		const filterPanel = document
 			.getElementById(this.id)
 			.closest(".page")
@@ -148,5 +156,69 @@ export class Table {
 		filterPanel.innerHTML = "<span>Period:</span>";
 		filterPanel.appendChild(dateFilterStart);
 		filterPanel.appendChild(dateFilterEnd);
+	}
+
+	checkRange(dateRange, dataDate) {
+		// take first game as example to check for periods because all games have them
+		const gameResults = dataDate[Object.keys(dataDate)[0]];
+		const startDate = dateRange.start;
+		const endDate = dateRange.end;
+		let startIndex;
+		let endIndex;
+		// go through all the periods available and check if they are between those in datepickers
+		// if there are any then set start-end index for all other games
+		let i = 0;
+		for (const dateRes of gameResults) {
+			const dateJson = dateRes.period.split(".");
+			dateJson.unshift(...dateJson.splice(1, 1));
+			const dateJsonFormat = new Date(dateJson.join("/"));
+			if (dateJsonFormat >= startDate && dateJsonFormat <= endDate) {
+				startIndex = startIndex !== undefined ? startIndex : i;
+				endIndex = i;
+			}
+			i++;
+		}
+		// if there are no matches based on datepicker then exit with message
+		if (startIndex === undefined && endIndex === undefined) {
+			const oldTable = document.querySelector(`#${this.id} .table-body`);
+			oldTable.textContent = "No data for this period !";
+			return;
+		}
+
+		const dateTableNew = [];
+		const objTemplate = {};
+		// new object template is reseted object with no values on properties
+		for (const key in gameResults[0]) {
+			if (key === "period") {
+				objTemplate.gameName = "";
+			} else {
+				objTemplate[key] = 0;
+			}
+		}
+
+		for (const game in dataDate) {
+			// create one copy of object for each game and fill with data on periods which are available
+			const sumGame = { ...objTemplate };
+
+			for (let index = startIndex; index <= endIndex; index++) {
+				for (const key in dataDate[game][index]) {
+					if (key !== "period") {
+						sumGame[key] += dataDate[game][index][key];
+					}
+				}
+			}
+			sumGame.gameName = game;
+			sumGame.currency = "EUR";
+			dateTableNew.push(sumGame);
+		}
+
+		const newTableDate = TableCreator.tableBody(dateTableNew, false);
+		const oldTable = document.querySelector(`#${this.id} .table-body`);
+		oldTable.replaceWith(newTableDate);
+
+		const activeHeadSort = document.querySelector(`#${this.id} .asc`) || document.querySelector(`#${this.id} .desc`);
+		if (activeHeadSort) {
+			activeHeadSort.removeAttribute("class");
+		}
 	}
 }
